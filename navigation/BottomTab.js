@@ -9,6 +9,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import * as Icons from "react-native-heroicons/mini";
 import { colors } from "../theme";
 import { MaterialIcons } from '@expo/vector-icons';
+import ChatScreen from "../screens/ChatScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -48,11 +49,11 @@ const BottomTab = () => {
             />
 
             <Tab.Screen
-                name="Voucher"
-                component={HomeScreen}
+                name="Chat"
+                component={ChatScreen}
                 options={{
                     headerShown: false,
-                    tabBarLabel: "Home",
+                    tabBarLabel: "Chat",
                     tabBarLabelStyle: { color: colors.primary },
                     tabBarIcon: ({ focused }) =>
                         focused ? (
