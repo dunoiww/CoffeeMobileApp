@@ -12,7 +12,6 @@ const ChatScreen = () => {
                 {/* header */}
                 <View className="justify-center">
                     <Text className="text-2xl text-center font-semibold">Chat</Text>
-                    <Icons.ChevronLeftIcon size={24} color={"#000"} className="absolute" />
                 </View>
 
                 {/* chat */}
