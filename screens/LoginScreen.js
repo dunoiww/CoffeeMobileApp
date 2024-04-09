@@ -41,7 +41,7 @@ export default function LogInScreen() {
                         </Text>
                     </TouchableOpacity>
 
-                    <Button content="Đăng nhập" handle={() => navigation.navigate('Home')} />
+                    <Button content="Đăng nhập" handle={() => navigation.navigate('HomeTab')} />
                 </View>
 
                 <View className="mt-14 flex-row justify-between items-center" style={{ width: wp(90) }}>

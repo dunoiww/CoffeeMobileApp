@@ -1,63 +1,81 @@
-import { View, Text, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, TextInput, TouchableOpacity } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import React, { useState } from 'react'
-import * as Icons from 'react-native-heroicons/outline';
-import { colors } from '../theme';
+import React, { useState } from "react";
+import Carousel from "react-native-reanimated-carousel";
+import * as Icons from "react-native-heroicons/outline";
+import { colors } from "../theme";
+import Categories from "../components/categories";
+import Item from "../components/item";
 
 const HomeScreen = () => {
-    const [isActive, setIsActive] = useState('Tất cả');
-  return (
-    <View className='flex-1'>
-        <ScrollView>
-            <View style={{height: hp(35)}} className='bg-yellow-950 space-y-5'>
-                <View style={{width: wp(90)}} className='flex-row justify-between mx-auto mt-20 items-center'>
-                    <View>
-                        <Text className='text-white'>Giao đến</Text>
-                        <Text className='text-white text-base font-semibold'>Tân tiến, Đồng Phú, Bình Phước</Text>
+    const [isActive, setIsActive] = useState("Tất cả");
+    const categories = ['Espresso', 'Machiato', 'Latte', 'America']
+    return (
+        <View className="flex-1">
+            <ScrollView>
+                <View style={{ height: hp(35) }} className="bg-yellow-950 space-y-5">
+                    {/* Header */}
+                    <View style={{ width: wp(90) }} className="flex-row justify-between mx-auto mt-20 items-center">
+                        <View>
+                            <Text className="text-white">Giao đến</Text>
+                            <Text className="text-white text-base font-semibold">Tân tiến, Đồng Phú, Bình Phước</Text>
+                        </View>
+                        <View>
+                            <Image
+                                source={require("../assets/images/avtDemo.png")}
+                                style={{ width: hp(8), height: hp(8) }}
+                            />
+                        </View>
                     </View>
-                    <View>
-                        <Image source={require('../assets/images/avtDemo.png')} style={{width: hp(8), height: hp(8)}}/>
+                    {/* Search bar */}
+                    <View className="mx-5 py-2 px-3 bg-white rounded-lg">
+                        <View className="flex-row justify-between">
+                            <TextInput placeholder="tìm món..." className="text-lg" />
+
+                            <TouchableOpacity className="p-1 bg-yellow-950 rounded-lg">
+                                <Icons.MagnifyingGlassIcon size={24} color="#ffffff" />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
 
-                <View className='mx-5 py-2 px-3 bg-white rounded-lg'>
-                    <View className='flex-row justify-between'>
-                        <TextInput placeholder='tìm món...' className='text-lg'/>
-
-                        <TouchableOpacity className='p-1 bg-yellow-950 rounded-lg'>
-                            <Icons.MagnifyingGlassIcon size={24} color='#ffffff'/>
-                        </TouchableOpacity>
-                    </View>
+                <View className="-mt-20">
+                    {/* carousel */}
+                    <Carousel
+                        loop
+                        width={wp(100)}
+                        height={hp(22)}
+                        autoPlay={true}
+                        data={[
+                            {id: 1, image: require("../assets/images/Frame 17.png")},
+                            {id: 2, image: require("../assets/images/Frame 17.png")},
+                            {id: 3, image: require("../assets/images/Frame 17.png")},
+                            {id: 4, image: require("../assets/images/Frame 17.png")},
+                        ]}
+                        scrollAnimationDuration={1000}
+                        renderItem={({ item }) => (
+                            <View className="justify-center items-center">
+                                <Image source={(item.image)} resizeMode="contain" style={{ width: wp(90), height: hp(20) }} />
+                            </View>
+                        )}
+                    />
                 </View>
-            </View>
-
-            <View className='-mt-20'>
-                <View className='justify-center items-center'>
-                    <Image source={require('../assets/images/Frame 17.png')} resizeMode='contain' style={{width: 400, height: 200}} />
+                
+                {/* categories */}
+                <View className='mx-2'>
+                    <Categories categories={categories} />
                 </View>
-            </View>
 
-            <View>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingLeft: 15}}>
-                    <View className='flex-row space-x-5'>
-                        <TouchableOpacity onPress={() => setIsActive('Tất cả')} style={{backgroundColor: isActive === "Tất cả" ? colors.active : 'black'}} className='p-2 rounded-lg'>
-                            <Text className='text-lg text-white'>Tất cả</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setIsActive('Món chính')} style={{backgroundColor: isActive === "Món chính" ? colors.active : 'black'}} className='p-2 rounded-lg'>
-                            <Text className='text-lg text-white'>Món chính</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setIsActive('Món phụ')} style={{backgroundColor: isActive === "Món phụ" ? colors.active : 'black'}} className='p-2 rounded-lg'>
-                            <Text className='text-lg text-white'>Món phụ</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setIsActive('Đồ uống')} style={{backgroundColor: isActive === "Đồ uống" ? colors.active : 'black'}} className='p-2 rounded-lg'>
-                            <Text className='text-lg text-white'>Đồ uống</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </View>
-        </ScrollView>
-    </View>
-  )
-}
+                {/* card item */}
+                <View className='mx-5 mt-5 flex-row flex-wrap justify-between'>
+                    <Item />
+                    <Item />
+                    <Item />
+                    <Item />
+                </View>
+            </ScrollView>
+        </View>
+    );
+};
 
-export default HomeScreen
+export default HomeScreen;
