@@ -4,11 +4,13 @@ import Carousel from "react-native-reanimated-carousel";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import * as Icons from "react-native-heroicons/solid";
 import MenuItemProfile from "../components/menuItemProfile";
+import { useNavigation } from "@react-navigation/native";
 
 
 const width = Dimensions.get("window").width;
 
 const ProfileScreen = () => {
+    const navigation = useNavigation();
     const menuItems = [
         {icon: 'BookmarkIcon', title: 'Đã lưu'},
         {icon: 'ClipBoardDocumentListIcon', title: 'Đơn hàng'},
@@ -32,7 +34,7 @@ const ProfileScreen = () => {
                 <View className='mt-16 space-y-1'>
                     <View className='flex-row justify-center gap-2 items-center'>
                         <Text className='text-lg font-semibold text-center'>Ngo Nam</Text>
-                        <TouchableOpacity className='p-1 bg-gray-300 rounded-full'>
+                        <TouchableOpacity onPress={() => navigation.navigate('Edit')} className='p-1 bg-gray-300 rounded-full'>
                             <Icons.PencilIcon size={20} color='#000000'/>
                         </TouchableOpacity>
                     </View>

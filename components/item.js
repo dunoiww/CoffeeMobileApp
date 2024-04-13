@@ -1,12 +1,14 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import * as IconsSolid from "react-native-heroicons/solid";
 import { colors } from "../theme";
 
 const Item = () => {
+    const navigation = useNavigation();
     return (
-        <View className="bg-white rounded-[16px] space-y-2 mt-3">
+        <Pressable onPress={() => navigation.navigate('Detail')} className="bg-white rounded-[16px] space-y-2 mt-3">
             <View className="px-2">
                 <View>
                     <Image
@@ -17,7 +19,7 @@ const Item = () => {
 
                     <View className='absolute flex-row items-center bottom-[5px] right-0 p-1' style={{borderTopLeftRadius: 12, borderBottomRightRadius: 16, backgroundColor: 'rgba(0,0,0,0.16)'}}>
                         <IconsSolid.StarIcon size={16} color={'#fbbe21'} />
-                        <Text className='text-white font-bold p-1'>5 sao</Text>
+                        <Text className='text-white font-bold p-1'>5</Text>
                     </View>
                 </View>
             </View>
@@ -37,7 +39,7 @@ const Item = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 };
 
