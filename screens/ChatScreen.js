@@ -8,17 +8,17 @@ import CustomKeyboard from "../components/customKeyboard";
 const ChatScreen = () => {
     return (
         <CustomKeyboard>
-            <SafeAreaView className="flex-1 mx-5">
+            <View className="flex-1 mx-5">
                 {/* header */}
-                <View className="justify-center">
+                <SafeAreaView className="justify-center">
                     <Text className="text-2xl text-center font-semibold">Chat</Text>
-                </View>
+                </SafeAreaView>
 
                 {/* chat */}
                 <View className="flex-1"></View>
 
                 {/* input */}
-                <View className="flex-row justify-between items-center -mx-4">
+                <View className="flex-row justify-between items-center -mx-4 mb-1">
                     <View className="flex-row justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5">
                         <TextInput placeholder="Chat with me..." className="flex-1 mr-2" />
                         <TouchableOpacity className="bg-neutral-200 p-2 mr-[1px] rounded-full">
@@ -26,7 +26,7 @@ const ChatScreen = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </SafeAreaView>
+            </View>
         </CustomKeyboard>
     );
 };

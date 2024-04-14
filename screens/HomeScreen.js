@@ -6,10 +6,14 @@ import * as Icons from "react-native-heroicons/outline";
 import { colors } from "../theme";
 import Categories from "../components/categories";
 import Item from "../components/item";
+import { useNavigation } from "@react-navigation/native";
+import Draggable from "react-native-draggable";
 
 const HomeScreen = () => {
+    const navigation = useNavigation();
     const [isActive, setIsActive] = useState("Tất cả");
-    const categories = ['Espresso', 'Machiato', 'Latte', 'America']
+    const categories = ["Espresso", "Machiato", "Latte", "America"];
+    const quantity = 2;
     return (
         <View className="flex-1">
             <ScrollView>
@@ -32,7 +36,8 @@ const HomeScreen = () => {
                         <View className="flex-row justify-between">
                             <TextInput placeholder="tìm món..." className="text-lg" />
 
-                            <TouchableOpacity className="p-1 bg-yellow-950 rounded-lg">
+                            <TouchableOpacity
+                                className="p-1 bg-yellow-950 rounded-lg">
                                 <Icons.MagnifyingGlassIcon size={24} color="#ffffff" />
                             </TouchableOpacity>
                         </View>
@@ -47,33 +52,55 @@ const HomeScreen = () => {
                         height={hp(22)}
                         autoPlay={true}
                         data={[
-                            {id: 1, image: require("../assets/images/Frame 17.png")},
-                            {id: 2, image: require("../assets/images/Frame 17.png")},
-                            {id: 3, image: require("../assets/images/Frame 17.png")},
-                            {id: 4, image: require("../assets/images/Frame 17.png")},
+                            { id: 1, image: require("../assets/images/Frame 17.png") },
+                            { id: 2, image: require("../assets/images/Frame 17.png") },
+                            { id: 3, image: require("../assets/images/Frame 17.png") },
+                            { id: 4, image: require("../assets/images/Frame 17.png") },
                         ]}
                         scrollAnimationDuration={1000}
                         renderItem={({ item }) => (
                             <View className="justify-center items-center">
-                                <Image source={(item.image)} resizeMode="contain" style={{ width: wp(90), height: hp(20) }} />
+                                <Image
+                                    source={item.image}
+                                    resizeMode="contain"
+                                    style={{ width: wp(90), height: hp(20) }}
+                                />
                             </View>
                         )}
                     />
                 </View>
-                
+
                 {/* categories */}
-                <View className='mx-2'>
+                <View className="mx-2">
                     <Categories categories={categories} />
                 </View>
 
                 {/* card item */}
-                <View className='mx-5 mt-5 flex-row flex-wrap justify-between'>
+                <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
                     <Item />
                     <Item />
                     <Item />
                     <Item />
                 </View>
             </ScrollView>
+
+            {/* cart */}
+            <Draggable
+                x={wp(80)}
+                y={hp(82)}
+                renderSize={24}
+                renderColor="amber"
+                isCircle>
+                    <View>
+                        <TouchableOpacity className="p-5 bg-yellow-600 rounded-full">
+                            <Icons.ShoppingCartIcon size={30} strokeWidth={2} color={colors.primary} />
+                            <View className='absolute -right-1 top-1 bg-red-500 px-2 rounded-full'>
+                                <Text className='text-white text-base'>{quantity}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        
+                    </View>
+            </Draggable>
         </View>
     );
 };
