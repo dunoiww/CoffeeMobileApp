@@ -30,7 +30,7 @@ const DetailItemScreen = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icons.ChevronLeftIcon size={30} color={"black"}/>
                     </TouchableOpacity>
-                    <Text className="text-base font-semibold">Chi tiết sản phẩm</Text>
+                    <Text className="text-lg font-semibold">Chi tiết sản phẩm</Text>
 
                     <TouchableOpacity>
                         <Icons.HeartIcon size={30} color={"red"} />
@@ -93,7 +93,7 @@ const DetailItemScreen = () => {
                         </View>
 
                         <TouchableOpacity className='rounded-md' style={{backgroundColor: colors.primary}}>
-                        <Text className='px-4 py-2 text-white text-base font-semibold'>+</Text>
+                            <Text className='px-4 py-2 text-white text-base font-semibold'>+</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -92,7 +92,7 @@ const HomeScreen = () => {
                 renderColor="amber"
                 isCircle>
                     <View>
-                        <TouchableOpacity className="p-5 bg-yellow-600 rounded-full">
+                        <TouchableOpacity onPress={() => navigation.navigate('Cart')} className="p-5 bg-yellow-600 rounded-full">
                             <Icons.ShoppingCartIcon size={30} strokeWidth={2} color={colors.primary} />
                             <View className='absolute -right-1 top-1 bg-red-500 px-2 rounded-full'>
                                 <Text className='text-white text-base'>{quantity}</Text>
