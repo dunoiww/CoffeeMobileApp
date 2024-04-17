@@ -1,6 +1,4 @@
-import { err } from "react-native-svg";
-import { db } from "../firebase";
-import { ref, onValue, get, child, getDatabase } from "firebase/database";
+import { child, get, getDatabase, ref } from "firebase/database";
 
 const handleLogin = async (username, password) => {
     const dbRef = ref(getDatabase());

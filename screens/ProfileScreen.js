@@ -23,7 +23,7 @@ const ProfileScreen = () => {
             "Bạn có chắc chắn muốn đăng xuất không?",
             [
                 { text: "Hủy", style: "cancel" },
-                { text: "Đăng xuất", style: 'destructive', onPress: () => navigation.replae('Login') },
+                { text: "Đăng xuất", style: 'destructive', onPress: () => navigation.replace('Login') },
             ],
             { cancelable: true }
         );
@@ -69,8 +69,8 @@ const ProfileScreen = () => {
 
                 {/* logout */}
                 <View>
-                    <TouchableOpacity onPress={handleLogout} className="mx-5 mt-10 p-5 bg-red-500 rounded-lg">
-                        <Text className="text-white text-center font-semibold">Đăng xuất</Text>
+                    <TouchableOpacity onPress={handleLogout} className="mx-5 mt-10 p-4 bg-red-500 rounded-lg">
+                        <Text className="text-white text-center text-lg font-semibold">Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
