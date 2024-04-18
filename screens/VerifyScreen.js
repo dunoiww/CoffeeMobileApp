@@ -1,6 +1,6 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TextInput } from "react-native-paper";
 import Button from "../components/button";
 import { colors } from "../theme";
@@ -11,14 +11,23 @@ const { width, height } = Dimensions.get("window");
 const VerifyScreen = () => {
     const navigation = useNavigation();
     const [otp, setOTP] = useState("");
+    const inputRef1 = useRef();
+    const inputRef2 = useRef();
+    const inputRef3 = useRef();
+    const inputRef4 = useRef();
 
     useEffect(() => {
         if (otp.length === 4) {
             setTimeout(() => {
-                navigation.replace('Home')
+                navigation.replace('ChangePassword')
             }, 3000);
         }
     }, [otp]);
+
+    const setOTPandFocus = (e, ref) => {
+        setOTP((text) => text + e);
+        ref.current.focus();
+    }
 
     return (
         <View className="flex-1 justify-center items-center">
@@ -32,26 +41,30 @@ const VerifyScreen = () => {
                 <View className="mt-20 flex-row space-x-5 justify-between">
                     <TextInput
                         mode="outlined"
+                        ref={inputRef1}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
-                        onChangeText={(e) => setOTP((text) => text + e)}
+                        onChangeText={(e) => setOTPandFocus(e, inputRef2)}
                     />
                     <TextInput
                         mode="outlined"
-                        activeOutlineColor="#3b1d0c"
-                        className="mb-5 text-center"
-                        textAlign="center"
-                        onChangeText={(e) => setOTP((text) => text + e)}
-                    />
-                    <TextInput
-                        mode="outlined"
+                        ref={inputRef2}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
                         textAlign="center"
-                        onChangeText={(e) => setOTP((text) => text + e)}
+                        onChangeText={(e) => setOTPandFocus(e, inputRef3)}
                     />
                     <TextInput
                         mode="outlined"
+                        ref={inputRef3}
+                        activeOutlineColor="#3b1d0c"
+                        className="mb-5 text-center"
+                        textAlign="center"
+                        onChangeText={(e) => setOTPandFocus(e, inputRef4)}
+                    />
+                    <TextInput
+                        mode="outlined"
+                        ref={inputRef4}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
                         textAlign="center"
