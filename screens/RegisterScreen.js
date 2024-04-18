@@ -22,7 +22,18 @@ const RegisterScreen = () => {
         setIsHide(!isHide);
     };
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        if (!username || !email || !password || !rePassword) {
+            Toast.show({
+                type: "error",
+                text1: "Đăng ký thất bại",
+                text2: "Vui lòng điền đầy đủ thông tin!",
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+            })
+            return;
+        }
         if (password !== rePassword) {
             Toast.show({
                 type: "error",
@@ -34,17 +45,18 @@ const RegisterScreen = () => {
             })
             return;
         }
-        Register(username, email, password);
+        const rs = await Register(username, email, password);
+        
         Toast.show({
-            type: "success",
-            text1: "Đăng ký thành công",
-            text2: "Chuyển hướng đến trang đăng nhập!",
+            type: rs[0] ? "success" : "error",
+            text1: rs[0] ? 'Đăng ký thành công!' : 'Đăng ký thất bại',
+            text2: rs[0] ? "Chuyển hướng đến trang đăng nhập!" : rs[1],
             topOffset: 70,
             text1Style: {fontSize: 18},
             text2Style: {fontSize: 15},
             visibilityTime: 2000,
-            onHide: () => navigation.navigate('Login'),
-            onPress: () => navigation.navigate('Login')
+            onHide: () => rs[0] ? navigation.navigate('Login') : null,
+            onPress: () => rs[0] ? navigation.navigate('Login') : null
         })
     };
     return (
@@ -61,6 +73,7 @@ const RegisterScreen = () => {
                 <View className="space-y-3" style={{ width: wp(90) }}>
                     <TextInput
                         mode="outlined"
+                        require = {true}
                         autoCapitalize="none"
                         label="Tên đăng nhập"
                         value={username}
