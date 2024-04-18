@@ -7,10 +7,14 @@ import { colors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 import { ForgotPassword } from "../controller/ForgotController";
 import Toast from "react-native-toast-message";
+import { useDispatch } from "react-redux";
+import { setOTP } from "../redux/slices/otpSlice";
 
 const { width, height } = Dimensions.get("window");
 
 const ForgotScreen = () => {
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const handleVerifyEmail = async () => {
         const result = await ForgotPassword(email);
@@ -19,13 +23,15 @@ const ForgotScreen = () => {
             text1: result[1],
             topOffset: 70,
             text1Style: { fontSize: 18 },
-            text2Style: { fontSize: 15 },
         });
 
-        if (result[0]) navigation.navigate("Verify");
+        if (result[0]) {
+            dispatch(setOTP(result[2]))
+            navigation.navigate("Verify");  
+        } 
     };
 
-    const navigation = useNavigation();
+
     return (
         <View className="flex-1 justify-center items-center">
             <Image source={require("../assets/images/bgOther.png")} style={{ width: width, height: height }} />
@@ -40,6 +46,7 @@ const ForgotScreen = () => {
                         mode="outlined"
                         label={"Email"}
                         value={email}
+                        autoCapitalize="none"
                         onChangeText={(text) => setEmail(text)}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5"

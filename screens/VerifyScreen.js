@@ -1,31 +1,41 @@
-import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import React, { useEffect, useRef, useState } from "react";
-import { TextInput } from "react-native-paper";
-import Button from "../components/button";
-import { colors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useRef, useState } from "react";
+import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
+import { TextInput } from "react-native-paper";
+import { colors } from "../theme";
+import { useSelector, useDispatch } from "react-redux";
+import { setOTP } from "../redux/slices/otpSlice";
 
 const { width, height } = Dimensions.get("window");
 
 const VerifyScreen = () => {
     const navigation = useNavigation();
-    const [otp, setOTP] = useState("");
+    const dispatch = useDispatch();
+    const otp = useSelector((state) => state.otp.otp);
+    const [otpInput, setOTPInput] = useState("");
+    const [isOK, setIsOK] = useState(false);
     const inputRef1 = useRef();
     const inputRef2 = useRef();
     const inputRef3 = useRef();
     const inputRef4 = useRef();
 
     useEffect(() => {
-        if (otp.length === 4) {
-            setTimeout(() => {
-                navigation.replace('ChangePassword')
-            }, 3000);
+        if (otpInput.length === 4) {
+            if (otpInput === otp) {
+                setIsOK(true);
+                setTimeout(() => {
+                    navigation.navigate('ChangePassword')
+                    dispatch(setOTP(''))
+                }, 2000);
+            } else {
+                setIsOK(false);
+                inputRef1.current.focus();
+            }
         }
-    }, [otp]);
+    }, [otpInput]);
 
-    const setOTPandFocus = (e, ref) => {
-        setOTP((text) => text + e);
+    const setOTPAndFocus = (e, ref) => {
+        setOTPInput((text) => text + e);
         ref.current.focus();
     }
 
@@ -44,7 +54,7 @@ const VerifyScreen = () => {
                         ref={inputRef1}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
-                        onChangeText={(e) => setOTPandFocus(e, inputRef2)}
+                        onChangeText={(e) => setOTPAndFocus(e, inputRef2)}
                     />
                     <TextInput
                         mode="outlined"
@@ -52,7 +62,7 @@ const VerifyScreen = () => {
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
                         textAlign="center"
-                        onChangeText={(e) => setOTPandFocus(e, inputRef3)}
+                        onChangeText={(e) => setOTPAndFocus(e, inputRef3)}
                     />
                     <TextInput
                         mode="outlined"
@@ -60,7 +70,7 @@ const VerifyScreen = () => {
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
                         textAlign="center"
-                        onChangeText={(e) => setOTPandFocus(e, inputRef4)}
+                        onChangeText={(e) => setOTPAndFocus(e, inputRef4)}
                     />
                     <TextInput
                         mode="outlined"
@@ -68,7 +78,7 @@ const VerifyScreen = () => {
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
                         textAlign="center"
-                        onChangeText={(e) => setOTP((text) => text + e)}
+                        onChangeText={(e) => setOTPAndFocus(e, inputRef4)}
                     />
                 </View>
 

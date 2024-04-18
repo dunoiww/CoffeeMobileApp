@@ -1,14 +1,15 @@
-import { child, get, getDatabase, ref } from "firebase/database";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 import { send, EmailJSResponseStatus } from '@emailjs/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OTP = () => {
-    const otp = Math.floor(Math.random() * 9000);
-    return String(otp).padStart(4, '0');
+    let otpGenerate = Math.floor(Math.random() * 9000);
+    return String(otpGenerate).padStart(4, '0');
 }
 
-const otp = OTP();
+let otpGenerate = '';
 
-const sendEmail = async (email, user) => {
+const sendEmail = async (email, user, otp) => {
     try {
         console.log('sending email...')
         await send (
@@ -35,6 +36,7 @@ const sendEmail = async (email, user) => {
 
 const ForgotPassword = async (email) => {
     const dbRef = ref(getDatabase());
+    otpGenerate = OTP();
     try {
         // Get users from database
         const usersSnapshot = await get(child(dbRef, 'NguoiDung/'));
@@ -44,16 +46,17 @@ const ForgotPassword = async (email) => {
             for (const [userId, userData] of Object.entries(users)) {
                 if (userData.Email == email) {
                     console.log('sending email...')
-                    await sendEmail(email, userData.HoTen);
-                    return [true, 'Gủi mã OTP thành công'];
+                    await sendEmail(email, userData.HoTen, otpGenerate);
+                    return [true, 'Gủi mã OTP thành công', otpGenerate];
                 }
             }
+            return [false, 'Email không tồn tại', ''];
         } else {
-            return [false, "Không có dữ liệu người dùng"];
+            return [false, "Không có dữ liệu người dùng", ''];
         }
     } catch (error) {
         console.error(error);
-        return [false, error];
+        return [false, error, ''];
     }
 };
 
