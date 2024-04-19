@@ -22,7 +22,11 @@ const HomeScreen = () => {
                     <View style={{ width: wp(90) }} className="flex-row justify-between mx-auto mt-20 items-center">
                         <View>
                             <Text className="text-white">Giao đến</Text>
-                            <Text className="text-white text-base font-semibold">Tân tiến, Đồng Phú, Bình Phước</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("MapView")}>
+                                <Text className="text-white text-base font-semibold">
+                                    Tân tiến, Đồng Phú, Bình Phước
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                         <View>
                             <Image
@@ -31,13 +35,13 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
+                    
                     {/* Search bar */}
                     <View className="mx-5 py-2 px-3 bg-white rounded-lg">
                         <View className="flex-row justify-between">
                             <TextInput placeholder="tìm món..." className="text-lg" />
 
-                            <TouchableOpacity
-                                className="p-1 bg-yellow-950 rounded-lg">
+                            <TouchableOpacity className="p-1 bg-yellow-950 rounded-lg">
                                 <Icons.MagnifyingGlassIcon size={24} color="#ffffff" />
                             </TouchableOpacity>
                         </View>
@@ -85,21 +89,17 @@ const HomeScreen = () => {
             </ScrollView>
 
             {/* cart */}
-            <Draggable
-                x={wp(80)}
-                y={hp(82)}
-                renderSize={24}
-                renderColor="amber"
-                isCircle>
-                    <View>
-                        <TouchableOpacity onPress={() => navigation.navigate('Cart')} className="p-5 bg-yellow-600 rounded-full">
-                            <Icons.ShoppingCartIcon size={30} strokeWidth={2} color={colors.primary} />
-                            <View className='absolute -right-1 top-1 bg-red-500 px-2 rounded-full'>
-                                <Text className='text-white text-base'>{quantity}</Text>
-                            </View>
-                        </TouchableOpacity>
-                        
-                    </View>
+            <Draggable x={wp(80)} y={hp(82)} renderSize={24} renderColor="amber" isCircle>
+                <View>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Cart")}
+                        className="p-5 bg-yellow-600 rounded-full">
+                        <Icons.ShoppingCartIcon size={30} strokeWidth={2} color={colors.primary} />
+                        <View className="absolute -right-1 top-1 bg-red-500 px-2 rounded-full">
+                            <Text className="text-white text-base">{quantity}</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </Draggable>
         </View>
     );

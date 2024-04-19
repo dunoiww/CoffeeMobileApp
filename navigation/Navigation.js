@@ -14,13 +14,14 @@ import ChangePassword from '../screens/ChangePassword';
 import DetailItemScreen from '../screens/DetailItemScreen';
 import CartScreen from '../screens/CartScreen';
 import AddressScreen from '../screens/AddressScreen';
+import Map from '../components/mapView';
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Welcome' screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName='HomeTab' screenOptions={{headerShown: false}}>
         <Stack.Screen name="HomeTab" component={BottomTab} />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
@@ -32,6 +33,7 @@ export default function Navigation() {
         <Stack.Screen name="Detail" component={DetailItemScreen} />
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen name="Address" component={AddressScreen} />
+        <Stack.Screen name="MapView" component={Map} options={{presentation: 'modal'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

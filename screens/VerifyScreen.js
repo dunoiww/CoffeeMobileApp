@@ -51,6 +51,7 @@ const VerifyScreen = () => {
                 <View className="mt-20 flex-row space-x-5 justify-between">
                     <TextInput
                         mode="outlined"
+                        keyboardType="number-pad"
                         ref={inputRef1}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
@@ -58,6 +59,7 @@ const VerifyScreen = () => {
                     />
                     <TextInput
                         mode="outlined"
+                        keyboardType="number-pad"
                         ref={inputRef2}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
@@ -66,6 +68,7 @@ const VerifyScreen = () => {
                     />
                     <TextInput
                         mode="outlined"
+                        keyboardType="number-pad"
                         ref={inputRef3}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
@@ -74,6 +77,7 @@ const VerifyScreen = () => {
                     />
                     <TextInput
                         mode="outlined"
+                        keyboardType="number-pad"
                         ref={inputRef4}
                         activeOutlineColor="#3b1d0c"
                         className="mb-5 text-center"
