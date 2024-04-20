@@ -1,19 +1,23 @@
-import { View, Text, ScrollView, Image, TextInput, TouchableOpacity } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import Carousel from "react-native-reanimated-carousel";
+import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Draggable from "react-native-draggable";
 import * as Icons from "react-native-heroicons/outline";
-import { colors } from "../theme";
+import Carousel from "react-native-reanimated-carousel";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Categories from "../components/categories";
 import Item from "../components/item";
-import { useNavigation } from "@react-navigation/native";
-import Draggable from "react-native-draggable";
+import getDefaultAddress from "../customHooks/getDefaultAddress";
+import { colors } from "../theme";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
     const [isActive, setIsActive] = useState("Tất cả");
     const categories = ["Espresso", "Machiato", "Latte", "America"];
     const quantity = 2;
+
+    const addressData = getDefaultAddress();
+
     return (
         <View className="flex-1">
             <ScrollView>
@@ -23,8 +27,8 @@ const HomeScreen = () => {
                         <View>
                             <Text className="text-white">Giao đến</Text>
                             <TouchableOpacity onPress={() => navigation.navigate("MapView")}>
-                                <Text className="text-white text-base font-semibold">
-                                    Tân tiến, Đồng Phú, Bình Phước
+                                <Text className="text-white text-base font-semibold" style={{ width: wp(70) }}>
+                                    {addressData?.DiaChi}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -35,7 +39,7 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
-                    
+
                     {/* Search bar */}
                     <View className="mx-5 py-2 px-3 bg-white rounded-lg">
                         <View className="flex-row justify-between">

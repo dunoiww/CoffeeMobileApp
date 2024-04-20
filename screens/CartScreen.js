@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Pressable,
     ScrollView,
@@ -12,9 +12,14 @@ import { Divider } from "react-native-paper";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ItemCart from "../components/itemCart";
+import { getAddress } from "../controller/AddressController";
+import getDefaultAddress from "../customHooks/getDefaultAddress";
 
 const CartScreen = () => {
     const navigation = useNavigation();
+
+    const addressData = getDefaultAddress();
+
     return (
         <View className="flex-1">
             <SafeAreaView
@@ -47,14 +52,14 @@ const CartScreen = () => {
 
                 <Pressable onPress={() => navigation.navigate('Address')} className="ml-9 space-y-1 flex-row justify-between">
                     <View style={{ width: wp(70) }}>
-                        <View className="flex-row gap-1">
-                            <Text>Ngo Nam</Text>
+                        <View className="flex-row gap-1 items-center">
+                            <Text className='text-base'>{addressData?.HoTen}</Text>
                             <Text>|</Text>
-                            <Text>0987654321</Text>
+                            <Text className='text-base'>{addressData?.SoDienThoai}</Text>
                         </View>
                         <View>
                             <Text>
-                                KTX Khu B, Đường Nguyễn Du, Khu Phố 6, Phường Đông Hoà, Thành Phố Dĩ An, Bình Dương
+                                {addressData?.DiaChi}
                             </Text>
                         </View>
                     </View>

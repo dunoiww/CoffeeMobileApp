@@ -1,14 +1,32 @@
 import { View, Text, TouchableOpacity, Pressable, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Icons from "react-native-heroicons/outline";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { colors } from "../theme";
 import Address from "../components/address";
 import { useNavigation } from "@react-navigation/native";
+import { getAddress } from "../controller/AddressController";
 
 const AddressScreen = () => {
     const navigation = useNavigation();
+    const [addressData, setAddressData] = useState(null)
+
+    const handleGetAddresses = async () => {
+        try {
+            const addresses = await getAddress();
+            if (addresses) {
+                setAddressData(addresses);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        handleGetAddresses();
+    }, [])
+
     return (
         <View className='flex-1'>
             <SafeAreaView
@@ -33,11 +51,7 @@ const AddressScreen = () => {
             </SafeAreaView>
 
             <ScrollView className='pt-2 mx-4'>
-                <Address />
-                <Address />
-                <Address />
-                <Address />
-                <Address />
+                {addressData && <Address data={addressData} />}
             </ScrollView>
         </View>
     );
