@@ -1,13 +1,10 @@
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
-import Carousel from "react-native-reanimated-carousel";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import * as Icons from "react-native-heroicons/solid";
-import MenuItemProfile from "../components/menuItemProfile";
 import { useNavigation } from "@react-navigation/native";
-import InputCustom from "../components/inputCustom";
-import { colors } from "../theme";
+import React from "react";
+import { Dimensions, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import * as Icons from "react-native-heroicons/solid";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Button from "../components/button";
+import { colors } from "../theme";
 
 const width = Dimensions.get("window").width;
 
@@ -71,8 +68,8 @@ const EditScreen = () => {
                 </View>
 
                 {/* button */}
-                <View className='mt-10 mx-5'>
-                    <Button content='Cập nhật mật khẩu'/>
+                <View className="mt-10 mx-5">
+                    <Button content="Cập nhật mật khẩu" />
                 </View>
             </ScrollView>
         </View>

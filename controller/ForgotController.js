@@ -1,6 +1,5 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import { send, EmailJSResponseStatus } from '@emailjs/react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OTP = () => {
     let otpGenerate = Math.floor(Math.random() * 9000);

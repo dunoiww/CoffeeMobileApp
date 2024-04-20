@@ -1,4 +1,13 @@
 import { child, get, getDatabase, ref } from "firebase/database";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const storeData = async (makh) => {
+    try {
+        await AsyncStorage.setItem('makhachhang', makh)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const handleLogin = async (username, password) => {
     const dbRef = ref(getDatabase());
@@ -13,6 +22,7 @@ const handleLogin = async (username, password) => {
             for (const [userId, userData] of Object.entries(users)) {
                 if (userId.slice(0, 2) === 'KH' && userData.TaiKhoan === username && userData.MatKhau === password) {
                     account = {username, password}
+                    storeData(userId);
                     return account;
                 }
             }
