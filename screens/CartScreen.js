@@ -5,7 +5,7 @@ import {
     ScrollView,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from "react-native";
 import * as Icons from "react-native-heroicons/outline";
 import { Divider } from "react-native-paper";
@@ -36,31 +36,39 @@ const CartScreen = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icons.ChevronLeftIcon size={30} color={"black"} />
                     </TouchableOpacity>
-                    <Text className="text-lg font-semibold tracking-wider">Giỏ hàng</Text>
+                    <Text className="text-lg font-semibold tracking-wider">
+                        Giỏ hàng
+                    </Text>
                     <TouchableOpacity>
                         <Icons.TrashIcon size={30} color={"black"} />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
 
-            <ScrollView className="mx-5 pt-1 space-y-3" showsVerticalScrollIndicator={false}>
+            <ScrollView
+                className="mx-5 pt-1 space-y-3"
+                showsVerticalScrollIndicator={false}>
                 {/* address */}
                 <View className="flex-row items-center gap-3">
                     <Icons.MapPinIcon size={24} color={"red"} />
                     <Text className="text-base">Địa chỉ nhận hàng</Text>
                 </View>
 
-                <Pressable onPress={() => navigation.navigate('Address')} className="ml-9 space-y-1 flex-row justify-between">
+                <Pressable
+                    onPress={() => navigation.navigate("Address")}
+                    className="ml-9 space-y-1 flex-row justify-between">
                     <View style={{ width: wp(70) }}>
                         <View className="flex-row gap-1 items-center">
-                            <Text className='text-base'>{addressData?.HoTen}</Text>
+                            <Text className="text-base">
+                                {addressData?.HoTen}
+                            </Text>
                             <Text>|</Text>
-                            <Text className='text-base'>{addressData?.SoDienThoai}</Text>
+                            <Text className="text-base">
+                                {addressData?.SoDienThoai}
+                            </Text>
                         </View>
                         <View>
-                            <Text>
-                                {addressData?.DiaChi}
-                            </Text>
+                            <Text>{addressData?.DiaChi}</Text>
                         </View>
                     </View>
 

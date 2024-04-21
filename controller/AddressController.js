@@ -3,25 +3,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const getMakh = async () => {
     try {
-        const makh = await AsyncStorage.getItem("makhachhang");
-        if (makh !== null) {
-            return makh;
-        }
-    } catch (error) {}
+        const jsonValue = await AsyncStorage.getItem("user");
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
 };
 
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
-    const makh = await getMakh();
+    const data = await getMakh();
     try {
-        const addressesSnapshot = await get(child(dbRef, `DiaChi/${makh}`));
+        const addressesSnapshot = await get(child(dbRef, `DiaChi/${data.MaNguoiDung}`));
         const addresses = addressesSnapshot.val();
 
         if (addresses) {
             const currentId = parseInt(Object.keys(addresses)[Object.keys(addresses).length - 1].slice(2));
 
             const newId = "DC" + String(currentId + 1).padStart(4, "0");
-            console.log(newId);
             return newId;
         } else {
             return "DC0001";
@@ -32,11 +32,12 @@ const getNewId = async () => {
 };
 
 const addAddress = async (name, phone, detail_address, location) => {
-    const makh = await getMakh();
+    const data = await getMakh();
     const db = getDatabase();
     const newId = await getNewId();
     try {
-        await set(ref(db, `DiaChi/${makh}/${newId}`), {
+        await set(ref(db, `DiaChi/${data.MaNguoiDung}/${newId}`), {
+            MaDC: newId,
             HoTen: name,
             SoDienThoai: phone,
             DiaChi: detail_address + " " + location.address,
@@ -52,11 +53,11 @@ const addAddress = async (name, phone, detail_address, location) => {
 };
 
 const getAddress = async () => {
-    const makh = await getMakh();
+    const data = await getMakh();
     const dbRef = ref(getDatabase());
 
     try {
-        const addressesSnapshot = await get(child(dbRef, `DiaChi/${makh}`));
+        const addressesSnapshot = await get(child(dbRef, `DiaChi/${data.MaNguoiDung}`));
         const addresses = addressesSnapshot.val();
 
         return addresses;
@@ -67,18 +68,18 @@ const getAddress = async () => {
 
 const setDefaultAddress = async (key) => {
     const addresses = await getAddress();
-    const makh = await getMakh();
+    const data = await getMakh();
     const db = getDatabase();
 
     try {
-        await set(ref(db, `DiaChi/${makh}/${key}`), {
+        await set(ref(db, `DiaChi/${data.MaNguoiDung}/${key}`), {
             ...addresses[key],
             Default: true,
         });
 
         for (const addressKey in addresses) {
             if (addressKey !== key) {
-                await set(ref(db, `DiaChi/${makh}/${addressKey}`), {
+                await set(ref(db, `DiaChi/${data.MaNguoiDung}/${addressKey}`), {
                     ...addresses[addressKey],
                     Default: false,
                 });

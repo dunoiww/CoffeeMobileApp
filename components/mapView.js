@@ -1,7 +1,10 @@
 import { View, Text, Pressable } from "react-native";
 import React, { useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import axios from "axios";
 
@@ -40,30 +43,33 @@ const Map = () => {
                     key: "AIzaSyD8TeyN69QlSutICyzuxMPj53XihtewW_A",
                     language: "en",
                 }}
-                style={{ zIndex: 999, position: 'absolute', top: wp(9) }}
+                style={{ zIndex: 999, position: "absolute", top: wp(9) }}
             />
 
-            <MapView
-                provider="google"
-                initialRegion={{
-                    latitude: 10.8700233,
-                    longtitude: 106.8025735,
-                    latitudeDelta: 0.9,
-                    longtitudeDelta: 0.9,
-                }}
-                style={{ width: wp(100), height: hp(88), zIndex: -10 }}
-                region={{
-                    longitude: location?.longtitude,
-                    latitude: location?.latitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                }}
-                >
-                <Marker coordinate={{
-                    longitude: location?.longtitude,
-                    latitude: location?.latitude
-                }} />
-            </MapView>
+            {location && (
+                <MapView
+                    provider="google"
+                    initialRegion={{
+                        latitude: 10.8700233,
+                        longtitude: 106.8025735,
+                        latitudeDelta: 0.9,
+                        longtitudeDelta: 0.9,
+                    }}
+                    style={{ width: wp(100), height: hp(88), zIndex: -10 }}
+                    region={{
+                        longitude: location?.longtitude,
+                        latitude: location?.latitude,
+                        latitudeDelta: 0.01,
+                        longitudeDelta: 0.01,
+                    }}>
+                    <Marker
+                        coordinate={{
+                            longitude: location?.longtitude,
+                            latitude: location?.latitude,
+                        }}
+                    />
+                </MapView>
+            )}
         </View>
     );
 };
