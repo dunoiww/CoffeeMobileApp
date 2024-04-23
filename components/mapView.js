@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
 import {
     widthPercentageToDP as wp,
@@ -7,29 +7,18 @@ import {
 } from "react-native-responsive-screen";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import axios from "axios";
+import { GOOGLE_MAPS_API_KEY } from "../constants";
 
 const Map = () => {
-    const [placeId, setPlaceId] = React.useState("ChIJ67Cr6OcndTERisFylLnkQ-w");
-    const [location, setLocation] = React.useState(null);
-    const apiKey = "AIzaSyD8TeyN69QlSutICyzuxMPj53XihtewW_A";
-    const fetchPlaceDetail = async () => {
-        try {
-            const response = await axios.get(
-                `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${apiKey}`
-            );
-            setLocation({
-                latitude: response.data.result.geometry.location.lat,
-                longtitude: response.data.result.geometry.location.lng,
-            });
-            return response;
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    const [location, setLocation] = useState(null);
 
     useEffect(() => {
-        fetchPlaceDetail();
-    }, [placeId]);
+        setLocation({
+            latitude: 10.8700233,
+            longtitude: 106.8025735,
+        });
+    }, []);
+
     return (
         <View className="flex-1">
             {/* <Text className='text-xl font-bold text-center p-2 bg-white'>Map</Text> */}
@@ -37,12 +26,17 @@ const Map = () => {
                 placeholder="Nhập địa chỉ của bạn"
                 debounce={500}
                 onPress={(data, details = null) => {
-                    setPlaceId(details.place_id);
+                    setLocation({
+                        latitude: details.geometry.location.lat,
+                        longtitude: details.geometry.location.lng,
+                    });
                 }}
                 query={{
-                    key: "AIzaSyD8TeyN69QlSutICyzuxMPj53XihtewW_A",
+                    key: GOOGLE_MAPS_API_KEY,
                     language: "en",
                 }}
+                fetchDetails={true}
+                enablePoweredByContainer={false}
                 style={{ zIndex: 999, position: "absolute", top: wp(9) }}
             />
 
@@ -61,7 +55,8 @@ const Map = () => {
                         latitude: location?.latitude,
                         latitudeDelta: 0.01,
                         longitudeDelta: 0.01,
-                    }}>
+                    }}
+                >
                     <Marker
                         coordinate={{
                             longitude: location?.longtitude,
