@@ -9,6 +9,7 @@ import { colors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 import { addAddress } from "../controller/AddressController";
 import Toast from "react-native-toast-message";
+import { GOOGLE_MAPS_API_KEY } from "../constants";
 
 const AddAddressScreen = () => {
     const navigation = useNavigation();
@@ -106,7 +107,7 @@ const AddAddressScreen = () => {
                     });
                 }}
                 query={{
-                    key: "AIzaSyD8TeyN69QlSutICyzuxMPj53XihtewW_A",
+                    key: GOOGLE_MAPS_API_KEY,
                     language: "en",
                 }}
                 fetchDetails={true}
