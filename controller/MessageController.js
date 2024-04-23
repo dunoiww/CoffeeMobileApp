@@ -1,5 +1,6 @@
-import { getDatabase, ref, onValue, push, get, set, child } from "firebase/database";
+import { getDatabase, ref, onValue, push, get, set, child, orderByChild, query } from "firebase/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { orderBy } from "firebase/firestore";
 
 const getMakh = async () => {
     try {
@@ -51,7 +52,9 @@ const getMessage = async () => {
     return new Promise((resolve, reject) => {
         getMakh().then(userData => {
             const messageRef = ref(db, `TinNhan/${userData.MaNguoiDung}/`);
-            onValue(messageRef, (snapshot) => {
+            const q = query(messageRef, orderByChild('ThoiGian'));
+            // console.log(q)
+            onValue(q, (snapshot) => {
                 const data = snapshot.val();
                 resolve(data);
             });
@@ -61,4 +64,4 @@ const getMessage = async () => {
     });
 }
 
-export { sendMessage, getMessage }
+export { sendMessage, getMessage, getMakh }

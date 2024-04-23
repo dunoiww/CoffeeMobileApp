@@ -14,38 +14,90 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as Icons from "react-native-heroicons/solid";
 import CustomKeyboard from "../components/customKeyboard";
 import MessageList from "../components/messageList";
-import { getMessage, sendMessage } from "../controller/MessageController";
+import { getMessage, sendMessage, getMakh } from "../controller/MessageController";
+import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
 
 const ChatScreen = () => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [currentUser, setCurrentUser] = useState(null);
     const inputRef = useRef("");
+    const scrollRef = useRef(null);
 
-    
-    let allMessages = [];
+    const db = getDatabase();
 
-    // get messages data
-    const getMessagesData = async () => {
-        try {
-            const data = await getMessage();
-            for (const key in data) {
-                allMessages.push(data[key].NoiDung);
+    const getMessage = async () => {
+        const userData = await getMakh();
+        const messageRef = ref(db, `TinNhan/${userData.MaNguoiDung}/`);
+        const q = query(messageRef, orderByChild('ThoiGian'));
+
+        onValue(q, (snapShot) => {
+            const data = snapShot.val();
+            let allMessages = [];
+            if (data) {
+                for (const key in data) {
+                    const messageData = {
+                        MaKH: data[key].MaKH,
+                        NoiDung: data[key].NoiDung,
+                    }
+                    allMessages.push(messageData);
+                }
             }
 
             setMessages([...allMessages]);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+
+        })
+    }
+
+    // get messages data
+    // const getMessagesData = async () => {
+    //     try {
+    //         const data = await getMessage();
+    //         if (data) {
+    //             for (const key in data) {
+    //                 const messageData = {
+    //                     MaKH: data[key].MaKH,
+    //                     NoiDung: data[key].NoiDung,
+    //                 }
+    //                 allMessages.push(messageData);
+    //             }
+    //         }
+
+    //         setMessages([...allMessages]);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    useEffect(() => {
+        updateScrollView();
+    }, [messages])
+
+    const updateScrollView = () => {
+        setTimeout(() => {
+            scrollRef?.current?.scrollToEnd({ animated: true });
+        }, 100);
+    }
 
     const handleSendMessage = async () => {
         if (inputRef) inputRef?.current?.clear();
         await sendMessage(message);
-        await getMessagesData();
+        // await getMessagesData();
     };
 
+    const getCurrentUser = async () => {
+        try {
+            const user = await getMakh();
+            setCurrentUser(user);
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
-        getMessagesData();
+        getCurrentUser();
+        // getMessagesData();
+        getMessage();
     }, []);
 
     return (
@@ -60,7 +112,7 @@ const ChatScreen = () => {
 
                 {/* chat */}
                 <View className="flex-1">
-                    {messages && <MessageList messages={messages} />}
+                    {messages && <MessageList scrollRef={scrollRef} messages={messages} currentUser={currentUser}/>}
                 </View>
 
                 {/* input */}
