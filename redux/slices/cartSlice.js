@@ -7,38 +7,56 @@ export const CartSlice = createSlice({
     },
     reducers: {
         addToCart: (state, action) => {
-            const itemPresent = state.cart.find(item => item.id === action.payload.id)
+            const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
             if (itemPresent) {
-                itemPresent.quantity++;
+                itemPresent.SoLuong += action.payload.SoLuong;
             } else {
-                state.cart.push({ ...action.payload, quantity: 1 })
+                state.cart.push({ ...action.payload })
             }
         },
+        addToCartFromDatabase: (state, action) => {
+            // console.log(action.payload)
+            // if (state.cart.length === 0) {
+            // }
+            state.cart.push({...action.payload})
+        },
         removeFromCart: (state, action) => {
-            state.cart = state.cart.filter(item => item.id !== action.payload.id)
+            state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
         },
         incrementQuantity: (state, action) => {
-            const itemPresent = state.cart.find(item => item.id === action.payload.id)
+            const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
             if (itemPresent) {
-                itemPresent.quantity++;
+                itemPresent.SoLuong++;
             }
         },
         decrementQuantity: (state, action) => {
-            const itemPresent = state.cart.find(item => item.id === action.payload.id)
+            const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
-            if (itemPresent && itemPresent.quantity > 1) {
-                itemPresent.quantity--;
+            if (itemPresent && itemPresent.SoLuong > 1) {
+                itemPresent.SoLuong--;
             } else {
-                state.cart = state.cart.filter(item => item.id !== action.payload.id)
+                state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
             }
         },
-        cleanCart: (state) => {
+        setQuantityInput: (state, action) => {
+            if (action.payload.quantityInput < 1) {
+                state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
+                return
+            }
+
+            const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
+
+            if (itemPresent) {
+                itemPresent.SoLuong = action.payload.quantityInput;
+            }
+        },
+        clearCart: (state) => {
             state.cart = []
         }
     }
 })
 
-export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity, cleanCart } = CartSlice.actions
+export const { addToCart, addToCartFromDatabase, removeFromCart, incrementQuantity, decrementQuantity, setQuantityInput, clearCart } = CartSlice.actions
 export default CartSlice.reducer
