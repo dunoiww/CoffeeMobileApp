@@ -1,21 +1,52 @@
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
-import React from "react";
+import {
+    View,
+    Text,
+    Dimensions,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    Alert,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import * as Icons from "react-native-heroicons/solid";
 import MenuItemProfile from "../components/menuItemProfile";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../redux/slices/cartSlice";
+import { getUserData } from "../controller/StorageController";
+import { colors } from "../theme";
 
 const width = Dimensions.get("window").width;
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const [user, setUser] = useState(null);
+
     const menuItems = [
         { icon: "BookmarkIcon", title: "Đã lưu" },
         { icon: "ClipBoardDocumentListIcon", title: "Đơn hàng" },
         { icon: "HeartIcon", title: "Yêu thích" },
     ];
+
+    const getUser = async () => {
+        try {
+            const userData = await getUserData();
+            setUser(userData);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getUser();
+    }, []);
 
     const handleLogout = () => {
         Alert.alert(
@@ -23,7 +54,14 @@ const ProfileScreen = () => {
             "Bạn có chắc chắn muốn đăng xuất không?",
             [
                 { text: "Hủy", style: "cancel" },
-                { text: "Đăng xuất", style: 'destructive', onPress: () => navigation.replace('Login') },
+                {
+                    text: "Đăng xuất",
+                    style: "destructive",
+                    onPress: () => {
+                        navigation.replace("Login");
+                        dispatch(clearCart());
+                    },
+                },
             ],
             { cancelable: true }
         );
@@ -31,49 +69,95 @@ const ProfileScreen = () => {
 
     return (
         <View className="flex-1">
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 {/* avatar */}
                 <View style={{ height: hp(25) }} className="bg-yellow-950">
-                    <View className="justify-center items-center mt-20">
-                        <Text className="text-white text-xl font-bold text-center">Hồ sơ của tôi</Text>
+                    <View
+                        className="justify-center items-center"
+                        style={{ marginTop: hp(9) }}
+                    >
+                        <Text className="text-white text-xl font-bold text-center">
+                            Hồ sơ của tôi
+                        </Text>
                     </View>
-                    <View className="justify-center items-center mt-16">
+                    <View
+                        className="justify-center items-center"
+                        style={{ marginTop: hp(6) }}
+                    >
                         <Image
-                            source={require("../assets/images/avtDemo.png")}
-                            resizeMode="contain"
+                            source={{
+                                uri: user?.HinhAnh
+                                    ? user?.HinhAnh
+                                    : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
+                            }}
+                            resizeMode="cover"
                             style={{ width: hp(12), height: hp(12) }}
+                            className="rounded-full"
                         />
                     </View>
                 </View>
 
                 {/* info */}
-                <View className="mt-16 space-y-1">
+                <View className="space-y-1" style={{ marginTop: wp(15) }}>
                     <View className="flex-row justify-center gap-2 items-center">
-                        <Text className="text-lg font-semibold text-center">Ngo Nam</Text>
+                        <Text className="text-lg font-semibold text-center">
+                            {user?.HoTen}
+                        </Text>
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Edit")}
-                            className="p-1 bg-gray-300 rounded-full">
+                            className="p-1 bg-gray-300 rounded-full"
+                        >
                             <Icons.PencilIcon size={20} color="#000000" />
                         </TouchableOpacity>
                     </View>
-                    <Text className="text-center text-gray-500">namngo102003@gmail.com</Text>
-                    <Text className="text-center text-gray-500">0987654321</Text>
+                    <Text className="text-center text-gray-500">
+                        {user?.Email}
+                    </Text>
+                    <Text className="text-center text-gray-500">
+                        {user?.SoDienThoai}
+                    </Text>
                 </View>
 
                 {/* menu item */}
-                <View className="mx-5 mt-10">
-                    {menuItems.map((item, index) => {
-                        return <MenuItemProfile key={index} icon={item.icon} title={item.title} />;
-                    })}
+                <View className="mx-5">
+                    <View
+                        className="p-4 border rounded-[14px]"
+                        style={{ borderColor: "#9d9d9d", marginTop: wp(10) }}
+                    >
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("OrderInfo")}
+                            className="flex-row justify-between items-center"
+                        >
+                            <View className="flex-row items-center gap-5">
+                                <Icons.ClipboardDocumentListIcon
+                                    size={30}
+                                    color={colors.active}
+                                />
+                                <Text className="text-lg font-semibold">
+                                    Thông tin đơn hàng
+                                </Text>
+                            </View>
+
+                            <Icons.ChevronRightIcon
+                                size={30}
+                                color={colors.text(0.5)}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 {/* logout */}
-                <View>
-                    <TouchableOpacity onPress={handleLogout} className="mx-5 mt-10 p-4 bg-red-500 rounded-lg">
-                        <Text className="text-white text-center text-lg font-semibold">Đăng xuất</Text>
-                    </TouchableOpacity>
-                </View>
             </ScrollView>
+            <View className="mx-5 m-5">
+                <TouchableOpacity
+                    onPress={handleLogout}
+                    className="p-4 bg-red-500 rounded-lg"
+                >
+                    <Text className="text-white text-center text-lg font-semibold">
+                        Đăng xuất
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
