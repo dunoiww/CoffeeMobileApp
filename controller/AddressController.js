@@ -1,19 +1,15 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {getUserData} from "./StorageController";
 
-const getMakh = async () => {
-    try {
-        const jsonValue = await AsyncStorage.getItem("user");
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-};
 
+/**
+ * @notice Get new address id in the database
+ * @returns new address id in the database
+ */
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
-    const data = await getMakh();
+    const data = await getUserData();
     try {
         const addressesSnapshot = await get(child(dbRef, `DiaChi/${data.MaNguoiDung}`));
         const addresses = addressesSnapshot.val();
@@ -31,8 +27,16 @@ const getNewId = async () => {
     }
 };
 
+/**
+ * @notice Add a new address to the database
+ * @param name name of the user who owns the address
+ * @param phone of the user who owns the address
+ * @param detail_address the detail address (street, ward, district, city)
+ * @param location the longtitude and latitude of the address
+ * @returns the result of the operation
+ */
 const addAddress = async (name, phone, detail_address, location) => {
-    const data = await getMakh();
+    const data = await getUserData();
     const db = getDatabase();
     const newId = await getNewId();
     try {
@@ -52,8 +56,12 @@ const addAddress = async (name, phone, detail_address, location) => {
     }
 };
 
+/**
+ * @notice Get the addresses of the user
+ * @returns the addresses of the user
+ */
 const getAddress = async () => {
-    const data = await getMakh();
+    const data = await getUserData();
     const dbRef = ref(getDatabase());
 
     try {
@@ -66,9 +74,12 @@ const getAddress = async () => {
     }
 };
 
+/**
+ * @notice Set the default address of the user
+ */
 const setDefaultAddress = async (key) => {
     const addresses = await getAddress();
-    const data = await getMakh();
+    const data = await getUserData();
     const db = getDatabase();
 
     try {
