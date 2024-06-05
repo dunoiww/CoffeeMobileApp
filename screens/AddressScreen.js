@@ -43,14 +43,14 @@ const AddressScreen = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icons.ChevronLeftIcon size={30} color={colors.active} />
                     </TouchableOpacity>
-                    <Text className="text-lg font-semibold tracking-wider">Địa chỉ</Text>
+                    <Text className="text-xl font-semibold tracking-wider">Địa chỉ</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('AddAddress')}>
                         <Icons.PlusIcon size={30} color={colors.active} />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
 
-            <ScrollView className='pt-2 mx-4'>
+            <ScrollView showsVerticalScrollIndicator={false} className='pt-2 mx-4'>
                 {addressData && <Address data={addressData} />}
             </ScrollView>
         </View>
