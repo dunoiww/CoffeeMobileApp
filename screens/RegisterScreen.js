@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import { Register } from "../controller/RegisterController";
 import Toast from "react-native-toast-message";
+import ShowToast from "../components/toast";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,25 +25,11 @@ const RegisterScreen = () => {
 
     const handleRegister = async () => {
         if (!username || !email || !password || !rePassword) {
-            Toast.show({
-                type: "error",
-                text1: "Đăng ký thất bại",
-                text2: "Vui lòng điền đầy đủ thông tin!",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-            })
+            ShowToast("error", "Đăng ký thất bại", "Vui lòng điền đầy đủ thông tin!")
             return;
         }
         if (password !== rePassword) {
-            Toast.show({
-                type: "error",
-                text1: "Đăng ký thất bại",
-                text2: "Mật khẩu không khớp!",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-            })
+            ShowToast("error", "Đăng ký thất bại", "Mật khẩu không khớp!")
             return;
         }
         const rs = await Register(username, email, password);
@@ -105,38 +92,12 @@ const RegisterScreen = () => {
                         secureTextEntry={isHide}
                         activeOutlineColor={colors.primary}
                         right={<TextInput.Icon icon={isHide ? "eye" : "eye-off"} onPress={handleShowPassword} />}
-                        className="mb-4"
+                        className="mb-10"
                     />
 
                     {/* button register */}
                     <Button content="Đăng ký" handle={handleRegister} />
                 </View>
-
-                <View className="mt-10 flex-row justify-between items-center" style={{ width: wp(90) }}>
-                    <Text
-                        style={{
-                            height: 1,
-                            borderColor: "rgba(59, 29, 12, 0.4)",
-                            borderWidth: 1,
-                            width: wp(25),
-                        }}></Text>
-
-                    <Text style={{ color: "#8B6122" }}>Hoặc đăng ký với</Text>
-
-                    <Text
-                        style={{
-                            height: 1,
-                            borderColor: "rgba(59, 29, 12, 0.4)",
-                            borderWidth: 1,
-                            width: wp(25),
-                        }}></Text>
-                </View>
-
-                <TouchableOpacity
-                    className="flex justify-center items-center bg-white border-[1px] rounded-lg py-1 mt-5"
-                    style={{ borderColor: "#E8ECF4" }}>
-                    <Image source={require("../assets/icons/ggIcon.png")} />
-                </TouchableOpacity>
             </View>
             <View className="flex flex-row justify-center items-center absolute bottom-10">
                 <Text className="font-semibold">Đã có tài khoản? </Text>
