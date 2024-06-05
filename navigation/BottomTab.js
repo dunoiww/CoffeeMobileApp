@@ -22,7 +22,7 @@ const BottomTab = () => {
                 component={HomeScreen}
                 options={{
                     headerShown: false,
-                    tabBarLabel: "Home",
+                    tabBarLabel: "Trang chủ",
                     tabBarLabelStyle: { color: colors.primary },
                     tabBarIcon: ({ focused }) =>
                         focused ? (
@@ -38,7 +38,7 @@ const BottomTab = () => {
                 component={MenuScreen}
                 options={{
                     headerShown: false,
-                    tabBarLabel: "Food & Drink",
+                    tabBarLabel: "Đồ ăn và nước uống",
                     tabBarLabelStyle: { color: colors.primary },
                     tabBarIcon: ({ focused }) =>
                         focused ? (
@@ -70,7 +70,7 @@ const BottomTab = () => {
                 component={ProfileScreen}
                 options={{
                     headerShown: false,
-                    tabBarLabel: "Profile",
+                    tabBarLabel: "Thông tin",
                     tabBarLabelStyle: { color: colors.primary },
                     tabBarIcon: ({ focused }) =>
                         focused ? (
