@@ -249,10 +249,11 @@ const DetailItemScreen = ({ route }) => {
                         backgroundColor: '#f2f2f2',
                     }}
                     className="rounded-3xl pt-3 space-y-2">
-                    <View className="flex-row mx-5 justify-between">
+                    <View className="flex-col mx-5 justify-between">
                         <Text
                             style={{ color: colors.text(1) }}
-                            className="font-semibold text-2xl">
+                            className="font-semibold text-2xl"
+                            numberOfLines={1}>
                             {product.TenSanPham}
                         </Text>
                         <View className="flex-row items-end space-x-3">
@@ -267,6 +268,8 @@ const DetailItemScreen = ({ route }) => {
                                 className="font-semibold text-2xl">
                                 {formatPrice(price)}
                             </Text>
+
+                            <Image source={require('../assets/images/Hot-Sale-PNG-removebg-preview.png')} resizeMode='cover' style={{width: wp(20), height: hp(5)}}/>
                         </View>
                     </View>
                     {/* description */}
