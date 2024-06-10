@@ -2,7 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomeScreen from '../screens/WelcomeScreen';
-import LogInScreen from '../screens/LogInScreen';
+import LogInScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ForgotScreen from '../screens/ForgotScreen';
 import VerifyScreen from '../screens/VerifyScreen';
@@ -13,7 +13,6 @@ import ChangePassword from '../screens/ChangePassword';
 import CartScreen from '../screens/CartScreen';
 import AddressScreen from '../screens/AddressScreen';
 import AddAddressScreen from '../screens/AddAddressScreen';
-import MapScreen from '../screens/MapScreen';
 import PreparePayScreen from '../screens/PreparePayScreen';
 import OrderSuccessScreen from '../screens/OrderSuccessScreen';
 import OrderInfoScreen from '../screens/OrderInfoScreen';
@@ -47,7 +46,6 @@ export default function Navigation() {
         <Stack.Screen name="Voucher" component={VoucherScreen} />
         <Stack.Screen name="ChangeInfo" component={ChangeInfoScreen} />
         <Stack.Screen name="Review" component={ReviewScreen} options={{presentation: 'modal'}}/>
-        <Stack.Screen name="MapView" component={MapScreen} options={{presentation: 'modal'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
