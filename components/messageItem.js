@@ -6,7 +6,6 @@ import {
 import React, { useEffect } from "react";
 
 const MessageItem = ({ message, currentUser }) => {
-    console.log(message);
     if (message.NoiDung) {
         if (currentUser?.MaNguoiDung === message.MaKH) {
             return (

@@ -268,8 +268,9 @@ const DetailItemScreen = ({ route }) => {
                                 className="font-semibold text-2xl">
                                 {formatPrice(price)}
                             </Text>
-
-                            <Image source={require('../assets/images/Hot-Sale-PNG-removebg-preview.png')} resizeMode='cover' style={{width: wp(20), height: hp(5)}}/>
+                            {product.PhanTramGiam && (
+                                <Image source={require('../assets/images/Hot-Sale-PNG-removebg-preview.png')} resizeMode='cover' style={{width: wp(20), height: hp(5)}}/>
+                            )}
                         </View>
                     </View>
                     {/* description */}
