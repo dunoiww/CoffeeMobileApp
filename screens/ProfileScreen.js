@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Alert,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import {
     widthPercentageToDP as wp,
@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { clearCart } from "../redux/slices/cartSlice";
 import { getUserData } from "../controller/StorageController";
 import { colors } from "../theme";
+import { getUserRankById } from "../controller/UserController";
 
 const width = Dimensions.get("window").width;
 
@@ -28,6 +29,8 @@ const ProfileScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const [user, setUser] = useState(null);
+    const [userRank, setUserRank] = useState(null);
+    const [rank, setRank] = useState("");
 
     const menuItems = [
         { icon: "BookmarkIcon", title: "Đã lưu" },
@@ -44,9 +47,41 @@ const ProfileScreen = () => {
         }
     };
 
+    const getRank = async () => {
+        try {
+            const userRank = await getUserRankById(user?.MaNguoiDung);
+            setUserRank(userRank);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleRank = useMemo(() => {
+        if (+userRank?.DiemTichLuy >= 0 && +userRank?.DiemTichLuy < 100) {
+            setRank("Thành viên mới")
+            return;
+        } else if (+userRank?.DiemTichLuy >= 100 && +userRank?.DiemTichLuy < 1000) {
+            setRank("Bạc")
+            return;
+        } else if (+userRank?.DiemTichLuy >= 10000 && +userRank?.DiemTichLuy < 100000) {
+            setRank("Vàng")
+            return;
+        } else if (+userRank?.DiemTichLuy >= 100000) {
+            setRank("Kim Cương")
+            return;
+        }
+
+        setRank("Thành viên mới")
+        return;
+    }, [userRank])
+
     useEffect(() => {
         getUser();
     }, []);
+
+    useEffect(() => {
+        getRank();
+    }, [user])
 
     const handleLogout = () => {
         Alert.alert(
@@ -116,6 +151,37 @@ const ProfileScreen = () => {
                     <Text className="text-center text-gray-500">
                         {user?.SoDienThoai}
                     </Text>
+                </View>
+
+                {/* rank */}
+                <View className='mx-5'>
+                    <View className="flex-row justify-between items-center p-4 border rounded-[14px]" style={{ borderColor: "#9d9d9d", marginTop: wp(10) }}>
+                        <View className='flex-row gap-5 items-center'>
+                            <Image source={require("../assets/icons/icons8-rank-48.png")} style={{width: wp(8), height: wp(8)}}/>
+                            <Text className="text-lg font-semibold">Điểm tích luỹ</Text>
+                        </View>
+                        <Text className="text-lg font-semibold">
+                            {userRank?.DiemTichLuy}
+                        </Text>
+                    </View>
+
+                    <View className="flex-row justify-between items-center p-4 border rounded-[14px]" style={{ borderColor: "#9d9d9d", marginTop: wp(10) }}>
+                        <View className='flex-row gap-5 items-center'>
+                            {rank === "Đồng" ? (
+                                <Image source={require("../assets/images/Bronze.png")} style={{width: wp(8), height: wp(8)}}/>
+                            ) : rank === "Bạc" ? (
+                                <Image source={require("../assets/images/Silver.png")} style={{width: wp(8), height: wp(8)}}/>
+                            ) : rank === "Vàng" ? (
+                                <Image source={require("../assets/images/Gold.png")} style={{width: wp(8), height: wp(8)}}/>
+                            ) : rank === "Kim Cương" ? (
+                                <Image source={require("../assets/images/Diamond.png")} style={{width: wp(8), height: wp(8)}}/>
+                            ) : (
+                                <Image source={require('../assets/images/logo.png')} style={{width: wp(8), height: wp(8)}} />
+                            )}
+                            <Text className="text-lg font-semibold">Cấp bậc</Text>
+                        </View>
+                        <Text className="text-lg font-semibold">{rank}</Text>
+                    </View>
                 </View>
 
                 {/* menu item */}
