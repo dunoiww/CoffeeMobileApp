@@ -71,8 +71,6 @@ const ProfileScreen = () => {
             return;
         }
 
-        setRank("Thành viên mới")
-        return;
     }, [userRank])
 
     useEffect(() => {
